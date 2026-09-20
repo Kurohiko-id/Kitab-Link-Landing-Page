@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kitab Link — Manual Installation</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.46.0/dist/umd/lucide.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: {
+      fontFamily: { sans: ['Outfit', 'sans-serif'], mono: ['Space Grotesk', 'monospace'] },
+    } }
+  }
+</script>
+<style>
+  ::-webkit-scrollbar { width: 7px; height: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+  .dark ::-webkit-scrollbar-thumb { background: #334155; }
+  code { font-family: 'Space Grotesk', monospace; }
+  .nav-link.active { color: #2563eb; background: #eff6ff; }
+  .dark .nav-link.active { color: #60a5fa; background: rgba(37,99,235,0.12); }
+  #sidebar { transition: transform .2s ease; }
+  @media (max-width: 899px) {
+    #sidebar { position: fixed; inset: 0 25% 0 0; z-index: 40; transform: translateX(-100%); overflow-y: auto; }
+    #sidebar.open { transform: translateX(0); }
+    #sidebar-backdrop { position: fixed; inset: 0; z-index: 39; background: rgba(15,23,42,.5); display: none; }
+    #sidebar-backdrop.open { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans antialiased min-h-screen">
+
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-slate-950/85 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="menu-btn" class="md:hidden -ml-1 p-2 text-slate-500 dark:text-slate-400" aria-label="Menu">
+          <i data-lucide="menu" class="size-5"></i>
+        </button>
+        <a href="index.html" class="flex items-center gap-2 shrink-0">
+          <img src="logo.png" alt="" class="size-8 rounded-lg">
+          <span class="font-bold text-base tracking-tight hidden sm:inline bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">Kitab Link</span>
+        </a>
+        <span class="text-[11px] px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-500/15 text-blue-700 dark:text-blue-400 font-semibold shrink-0">Docs</span>
+      </div>
+
+      <a href="index.html" class="hidden md:flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400">
+        <i data-lucide="arrow-left" class="size-4"></i>
+        <span data-i18n="back-link">Kembali ke Docs</span>
+      </a>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button id="lang-btn" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800" aria-label="Language">EN</button>
+        <button id="theme-btn" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Tema">
+          <i data-lucide="sun" class="size-5 hidden dark-icon"></i>
+          <i data-lucide="moon" class="size-5 light-icon"></i>
+        </button>
+        <a href="https://github.com/Kurohiko-id/Kitab-Link-Self-Hosted" target="_blank" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs font-semibold">
+          <i data-lucide="github" class="size-4"></i>
+          <span class="hidden sm:inline">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="sidebar-backdrop"></div>
+
+  <div class="max-w-7xl mx-auto px-4 flex gap-8">
+    <aside id="sidebar" class="w-72 md:w-56 shrink-0 bg-white dark:bg-slate-950 md:bg-transparent py-6 md:py-8 px-5 md:px-0">
+      <nav class="space-y-1 text-sm">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-2" data-i18n="toc-title">Langkah-langkah</div>
+        <a href="#step-1" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="terminal" class="size-4"></i><span data-i18n="s1-title">Login SSH</span></a>
+        <a href="#step-2" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="shield" class="size-4"></i><span data-i18n="s2-title">Firewall (UFW)</span></a>
+        <a href="#step-3" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="box" class="size-4"></i><span data-i18n="s3-title">Install Docker</span></a>
+        <a href="#step-4" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="folder-tree" class="size-4"></i><span data-i18n="s4-title">Struktur ~/apps</span></a>
+        <a href="#step-5" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="file-plus" class="size-4"></i><span data-i18n="s5-title">Caddyfile Kosong</span></a>
+        <a href="#step-6" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="server" class="size-4"></i><span data-i18n="s6-title">Jalankan Caddy</span></a>
+        <a href="#step-7" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="globe" class="size-4"></i><span data-i18n="s7-title">Atur DNS</span></a>
+        <a href="#step-8" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="download" class="size-4"></i><span data-i18n="s8-title">Download Compose</span></a>
+        <a href="#step-9" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="settings" class="size-4"></i><span data-i18n="s9-title">Jalankan Kitab Link</span></a>
+        <a href="#step-10" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="network" class="size-4"></i><span data-i18n="s10-title">Tambah Site Block</span></a>
+        <a href="#step-11" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="check-circle" class="size-4"></i><span data-i18n="s11-title">Validate &amp; Reload</span></a>
+        <a href="#step-12" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="user-round" class="size-4"></i><span data-i18n="s12-title">Buat Akun Admin</span></a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 min-w-0 py-8 md:py-10 max-w-2xl">
+
+      <section class="scroll-mt-20 mb-10">
+        <h1 class="text-3xl font-extrabold tracking-tight mb-2" data-i18n="ov-title">Manual Installation</h1>
+        <p class="text-slate-600 dark:text-slate-400" data-i18n="ov-desc">Setup dari nol pakai VPS + Docker + Caddy sebagai reverse proxy. Cocok kalau mau kontrol penuh atau udah ada app lain di server yang sama.</p>
+      </section>
+
+      <section id="step-1" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="terminal" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s1-title">Login SSH</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s1-desc">Masuk ke server pakai user &amp; IP publik kamu, lalu update sistemnya.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s1-cap1">Login SSH</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>ssh username@PUBLIC_IP</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s1-cap2">Update sistem</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo apt-get update && sudo apt-get upgrade -y</code></pre>
+        </div>
+      </section>
+
+      <section id="step-2" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="shield" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s2-title">Firewall (UFW)</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s2-desc">Buka port yang dibutuhin doang: SSH, HTTP, HTTPS.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s2-cap1">Izinkan SSH</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo ufw allow OpenSSH</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s2-cap2">Izinkan HTTP (80)</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo ufw allow 80/tcp</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s2-cap3">Izinkan HTTPS (443)</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo ufw allow 443/tcp</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s2-cap4">Aktifkan firewall</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo ufw enable</code></pre>
+        </div>
+      </section>
+
+      <section id="step-3" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="box" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s3-title">Install Docker</span></h2>
+
+        <p class="text-sm font-semibold mb-1.5 mt-3" data-i18n="s3-sub1">1. Tambah repo resmi Docker:</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap1a">Install ca-certificates &amp; curl</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo apt-get install -y ca-certificates curl</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap1b">Bikin folder keyrings</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo install -m 0755 -d /etc/apt/keyrings</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap1c">Download GPG key Docker</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap1d">Kasih izin baca</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo chmod a+r /etc/apt/keyrings/docker.asc</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap1e">Daftarin repo Docker</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null</code></pre>
+        </div>
+
+        <p class="text-sm font-semibold mb-1.5 mt-4" data-i18n="s3-sub2">2. Install Docker Engine + Compose plugin:</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap2a">Update daftar paket</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo apt-get update</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap2b">Install Docker Engine</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</code></pre>
+        </div>
+
+        <p class="text-sm font-semibold mb-1.5 mt-4" data-i18n="s3-sub3">3. Biar docker gak perlu sudo tiap kali, lalu verifikasi:</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap3a">Tambah user ke grup docker</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>sudo usermod -aG docker $USER</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap3b">Aktifkan grup baru</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>newgrp docker</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap3c">Cek versi Docker</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker --version</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s3-cap3d">Cek versi Compose</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker compose version</code></pre>
+        </div>
+      </section>
+
+      <section id="step-4" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="folder-tree" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s4-title">Struktur ~/apps</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s4-desc">Satu folder buat Caddy (reverse proxy), satu folder buat Kitab Link, plus network Docker bersama biar keduanya bisa saling ngobrol.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s4-cap1">Bikin folder Caddy</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>mkdir -p ~/apps/proxy</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s4-cap2">Bikin folder Kitab Link</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>mkdir -p ~/apps/kurohiko</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s4-cap3">Bikin network Docker</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker network create proxy</code></pre>
+        </div>
+      </section>
+
+      <section id="step-5" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="file-plus" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s5-title">Caddyfile Kosong</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s5-desc">Site block per-domain ditambah belakangan, satu-satu, pas app-nya siap.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s5-cap1">Masuk folder Caddy</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>cd ~/apps/proxy</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s5-cap2">Bikin Caddyfile kosong</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>touch Caddyfile</code></pre>
+        </div>
+      </section>
+
+      <section id="step-6" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="server" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s6-title">Jalankan Caddy</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s6-desc">Compose ini cuma buat container Caddy dulu — belum ada mount buat Kitab Link sama sekali, itu ditambahin belakangan (butuh <code>docker compose up -d</code> ulang buat pickup mount baru, reload doang gak cukup).</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s6-cap1">Bikin docker-compose.yml Caddy</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>cat > docker-compose.yml << 'EOF'
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  caddy_data:
+  caddy_config:
+EOF</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s6-cap2">Jalankan Caddy</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker compose up -d</code></pre>
+        </div>
+      </section>
+
+      <section id="step-7" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="globe" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s7-title">Atur DNS</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s7-desc">Di Cloudflare (atau DNS provider kamu), arahkan domain ke IP server sebelum lanjut — biar pas Caddy minta sertifikat HTTPS nanti, domainnya udah nunjuk ke server yang bener.</p>
+        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400 list-disc pl-5">
+          <li data-i18n="s7-1">Record <b>A</b> — root domain (<code>@</code>) arahin ke IP publik server.</li>
+          <li data-i18n="s7-2">Record <b>CNAME</b> — <code>www</code> arahin ke root domain.</li>
+        </ul>
+      </section>
+
+      <section id="step-8" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="download" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s8-title">Download Compose</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s8-desc">Ambil compose file resmi Kitab Link di folder <code>~/apps/kurohiko</code>.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s8-cap1">Masuk folder Kitab Link</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>cd ~/apps/kurohiko</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s8-cap2">Download compose resmi</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>curl -O https://raw.githubusercontent.com/Kurohiko-id/Kitab-Link-Self-Hosted/main/docker-compose.yml</code></pre>
+        </div>
+      </section>
+
+      <section id="step-9" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="settings" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s9-title">Jalankan Kitab Link</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s9-desc">File default publish port 3000 ke host DAN gak join network apapun — wajar, itu ditulis buat orang yang belum punya reverse proxy. Kita timpa jadi versi ini: ganti nama service (nama service = network alias, harus unik &amp; jelas), lepas <code>ports</code> (cuma diakses lewat Caddy), tambah <code>networks</code>.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s9-cap1">Timpa jadi versi custom</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>cat > docker-compose.yml << 'EOF'
+services:
+  kurohiko:
+    image: ghcr.io/kurohiko-id/kitab-link-self-hosted:latest
+    container_name: kurohiko
+    volumes:
+      - kurohiko-data:/app/data
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  kurohiko-data:
+EOF</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s9-cap2">Jalankan container</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker compose up -d</code></pre>
+        </div>
+      </section>
+
+      <section id="step-10" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="network" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s10-title">Tambah Site Block</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s10-desc">Balik ke folder Caddy, tambahin site block buat domain kamu — ganti <code>kurohiko.id</code> dengan domain kamu sendiri.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s10-cap1">Masuk folder Caddy</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>cd ~/apps/proxy</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s10-cap2">Tambah site block ke Caddyfile</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>cat >> Caddyfile << 'EOF'
+
+kurohiko.id, www.kurohiko.id {
+    reverse_proxy kurohiko:3000
+}
+EOF</code></pre>
+        </div>
+      </section>
+
+      <section id="step-11" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="check-circle" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s11-title">Validate &amp; Reload</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="s11-desc">Cek dulu syntax-nya bener sebelum reload, biar Caddy gak crash gara-gara typo.</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s11-cap1">Validate config</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker exec caddy caddy validate --config /etc/caddy/Caddyfile</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s11-cap2">Reload Caddy</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker exec caddy caddy reload --config /etc/caddy/Caddyfile</code></pre>
+        </div>
+      </section>
+
+      <section id="step-12" class="scroll-mt-20 mb-16">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="user-round" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="s12-title">Buat Akun Admin</span></h2>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="s12-cap">Ambil token setup</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker logs kurohiko 2>&1 | grep "Setup token"</code></pre>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="s12-desc">Copy token-nya, buka <code>https://your-domain.id/setup</code> (masih DNS only, tetep bisa diakses biasa), isi username + password + token. Selesai — Kitab Link kamu udah jalan di belakang Caddy dengan HTTPS otomatis.</p>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+try { lucide.createIcons(); } catch (e) {}
+
+// --- Theme toggle ---
+const html = document.documentElement;
+function applyTheme(dark) {
+  html.classList.toggle('dark', dark);
+  document.querySelectorAll('.dark-icon').forEach(el => el.classList.toggle('hidden', !dark));
+  document.querySelectorAll('.light-icon').forEach(el => el.classList.toggle('hidden', dark));
+}
+try {
+  const saved = localStorage.getItem('kl-docs-theme');
+  applyTheme(saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+} catch (e) { applyTheme(false); }
+document.getElementById('theme-btn').addEventListener('click', () => {
+  const next = !html.classList.contains('dark');
+  applyTheme(next);
+  try { localStorage.setItem('kl-docs-theme', next ? 'dark' : 'light'); } catch (e) {}
+});
+
+// --- Language toggle: ID/EN ---
+const i18n = {
+  'back-link': { id: 'Kembali ke Docs', en: 'Back to Docs' },
+  'toc-title': { id: 'Langkah-langkah', en: 'Steps' },
+  'copy': { id: 'Salin', en: 'Copy' },
+  'copied': { id: 'Tersalin', en: 'Copied' },
+  'ov-title': { id: 'Manual Installation', en: 'Manual Installation' },
+  'ov-desc': { id: 'Setup dari nol pakai VPS + Docker + Caddy sebagai reverse proxy. Cocok kalau mau kontrol penuh atau udah ada app lain di server yang sama.', en: 'Set up from scratch using a VPS + Docker + Caddy as the reverse proxy. Good fit if you want full control or already run other apps on the same server.' },
+  's1-title': { id: 'Login SSH', en: 'SSH Login' },
+  's1-desc': { id: 'Masuk ke server pakai user &amp; IP publik kamu, lalu update sistemnya.', en: 'Log into the server with your user &amp; public IP, then update the system.' },
+  's1-cap1': { id: 'Login SSH', en: 'SSH login' },
+  's1-cap2': { id: 'Update sistem', en: 'Update the system' },
+  's2-title': { id: 'Firewall (UFW)', en: 'Firewall (UFW)' },
+  's2-desc': { id: 'Buka port yang dibutuhin doang: SSH, HTTP, HTTPS.', en: 'Only open the ports you need: SSH, HTTP, HTTPS.' },
+  's2-cap1': { id: 'Izinkan SSH', en: 'Allow SSH' },
+  's2-cap2': { id: 'Izinkan HTTP (80)', en: 'Allow HTTP (80)' },
+  's2-cap3': { id: 'Izinkan HTTPS (443)', en: 'Allow HTTPS (443)' },
+  's2-cap4': { id: 'Aktifkan firewall', en: 'Enable firewall' },
+  's3-title': { id: 'Install Docker', en: 'Install Docker' },
+  's3-sub1': { id: '1. Tambah repo resmi Docker:', en: "1. Add Docker's official repo:" },
+  's3-cap1a': { id: 'Install ca-certificates &amp; curl', en: 'Install ca-certificates &amp; curl' },
+  's3-cap1b': { id: 'Bikin folder keyrings', en: 'Create keyrings folder' },
+  's3-cap1c': { id: 'Download GPG key Docker', en: "Download Docker's GPG key" },
+  's3-cap1d': { id: 'Kasih izin baca', en: 'Make it readable' },
+  's3-cap1e': { id: 'Daftarin repo Docker', en: "Register Docker's repo" },
+  's3-sub2': { id: '2. Install Docker Engine + Compose plugin:', en: '2. Install Docker Engine + Compose plugin:' },
+  's3-cap2a': { id: 'Update daftar paket', en: 'Update package list' },
+  's3-cap2b': { id: 'Install Docker Engine', en: 'Install Docker Engine' },
+  's3-sub3': { id: '3. Biar docker gak perlu sudo tiap kali, lalu verifikasi:', en: "3. So Docker doesn't need sudo every time, then verify:" },
+  's3-cap3a': { id: 'Tambah user ke grup docker', en: 'Add user to docker group' },
+  's3-cap3b': { id: 'Aktifkan grup baru', en: 'Apply new group' },
+  's3-cap3c': { id: 'Cek versi Docker', en: 'Check Docker version' },
+  's3-cap3d': { id: 'Cek versi Compose', en: 'Check Compose version' },
+  's4-title': { id: 'Struktur ~/apps', en: '~/apps Structure' },
+  's4-desc': { id: 'Satu folder buat Caddy (reverse proxy), satu folder buat Kitab Link, plus network Docker bersama biar keduanya bisa saling ngobrol.', en: 'One folder for Caddy (reverse proxy), one for Kitab Link, plus a shared Docker network so both can talk to each other.' },
+  's4-cap1': { id: 'Bikin folder Caddy', en: 'Create Caddy folder' },
+  's4-cap2': { id: 'Bikin folder Kitab Link', en: 'Create Kitab Link folder' },
+  's4-cap3': { id: 'Bikin network Docker', en: 'Create Docker network' },
+  's5-title': { id: 'Caddyfile Kosong', en: 'Empty Caddyfile' },
+  's5-desc': { id: 'Site block per-domain ditambah belakangan, satu-satu, pas app-nya siap.', en: "Per-domain site blocks get added later, one at a time, once each app is ready." },
+  's5-cap1': { id: 'Masuk folder Caddy', en: 'Enter Caddy folder' },
+  's5-cap2': { id: 'Bikin Caddyfile kosong', en: 'Create an empty Caddyfile' },
+  's6-title': { id: 'Jalankan Caddy', en: 'Run Caddy' },
+  's6-desc': { id: 'Compose ini cuma buat container Caddy dulu — belum ada mount buat Kitab Link sama sekali, itu ditambahin belakangan (butuh <code>docker compose up -d</code> ulang buat pickup mount baru, reload doang gak cukup).', en: "This compose file is just for the Caddy container — no mount for Kitab Link yet, that gets added later (needs a fresh <code>docker compose up -d</code> to pick up the new mount, a reload alone isn't enough)." },
+  's6-cap1': { id: 'Bikin docker-compose.yml Caddy', en: "Create Caddy's docker-compose.yml" },
+  's6-cap2': { id: 'Jalankan Caddy', en: 'Run Caddy' },
+  's7-title': { id: 'Atur DNS', en: 'Configure DNS' },
+  's7-desc': { id: 'Di Cloudflare (atau DNS provider kamu), arahkan domain ke IP server sebelum lanjut — biar pas Caddy minta sertifikat HTTPS nanti, domainnya udah nunjuk ke server yang bener.', en: 'In Cloudflare (or your DNS provider), point the domain to the server IP before continuing — so when Caddy requests an HTTPS certificate later, the domain already resolves to the right server.' },
+  's7-1': { id: 'Record <b>A</b> — root domain (<code>@</code>) arahin ke IP publik server.', en: '<b>A</b> record — point the root domain (<code>@</code>) to the server\'s public IP.' },
+  's7-2': { id: 'Record <b>CNAME</b> — <code>www</code> arahin ke root domain.', en: '<b>CNAME</b> record — point <code>www</code> to the root domain.' },
+  's8-title': { id: 'Download Compose', en: 'Download Compose' },
+  's8-desc': { id: 'Ambil compose file resmi Kitab Link di folder <code>~/apps/kurohiko</code>.', en: "Grab Kitab Link's official compose file inside the <code>~/apps/kurohiko</code> folder." },
+  's8-cap1': { id: 'Masuk folder Kitab Link', en: 'Enter Kitab Link folder' },
+  's8-cap2': { id: 'Download compose resmi', en: 'Download the official compose file' },
+  's9-title': { id: 'Jalankan Kitab Link', en: 'Run Kitab Link' },
+  's9-desc': { id: 'File default publish port 3000 ke host DAN gak join network apapun — wajar, itu ditulis buat orang yang belum punya reverse proxy. Kita timpa jadi versi ini: ganti nama service (nama service = network alias, harus unik &amp; jelas), lepas <code>ports</code> (cuma diakses lewat Caddy), tambah <code>networks</code>.', en: "The default file publishes port 3000 to the host AND joins no network — makes sense, it's written for people without a reverse proxy yet. We overwrite it: rename the service (service name = network alias, must be unique &amp; clear), drop <code>ports</code> (only reachable via Caddy), add <code>networks</code>." },
+  's9-cap1': { id: 'Timpa jadi versi custom', en: 'Overwrite with the custom version' },
+  's9-cap2': { id: 'Jalankan container', en: 'Run the container' },
+  's10-title': { id: 'Tambah Site Block', en: 'Add Site Block' },
+  's10-desc': { id: 'Balik ke folder Caddy, tambahin site block buat domain kamu — ganti <code>kurohiko.id</code> dengan domain kamu sendiri.', en: 'Go back to the Caddy folder and add a site block for your domain — replace <code>kurohiko.id</code> with your own domain.' },
+  's10-cap1': { id: 'Masuk folder Caddy', en: 'Enter Caddy folder' },
+  's10-cap2': { id: 'Tambah site block ke Caddyfile', en: 'Append a site block to the Caddyfile' },
+  's11-title': { id: 'Validate &amp; Reload', en: 'Validate &amp; Reload' },
+  's11-desc': { id: 'Cek dulu syntax-nya bener sebelum reload, biar Caddy gak crash gara-gara typo.', en: "Validate the syntax before reloading, so Caddy doesn't crash over a typo." },
+  's11-cap1': { id: 'Validate config', en: 'Validate config' },
+  's11-cap2': { id: 'Reload Caddy', en: 'Reload Caddy' },
+  's12-title': { id: 'Buat Akun Admin', en: 'Create Admin Account' },
+  's12-cap': { id: 'Ambil token setup', en: 'Get the setup token' },
+  's12-desc': { id: 'Copy token-nya, buka <code>https://your-domain.id/setup</code> (masih DNS only, tetep bisa diakses biasa), isi username + password + token. Selesai — Kitab Link kamu udah jalan di belakang Caddy dengan HTTPS otomatis.', en: 'Copy the token, open <code>https://your-domain.id/setup</code> (still DNS-only, still reachable normally), fill in username + password + token. Done — Kitab Link is now running behind Caddy with automatic HTTPS.' },
+};
+let currentLang = 'id';
+function applyLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const entry = i18n[el.dataset.i18n];
+    if (entry) el.innerHTML = entry[lang];
+  });
+  html.lang = lang;
+  document.getElementById('lang-btn').textContent = lang === 'id' ? 'EN' : 'ID';
+  try { lucide.createIcons(); } catch (e) {}
+  try { localStorage.setItem('kl-docs-lang', lang); } catch (e) {}
+}
+try {
+  applyLang(localStorage.getItem('kl-docs-lang') || 'id');
+} catch (e) { applyLang('id'); }
+document.getElementById('lang-btn').addEventListener('click', () => {
+  applyLang(currentLang === 'id' ? 'en' : 'id');
+});
+
+// --- Mobile sidebar drawer ---
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('sidebar-backdrop');
+function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('open'); }
+document.getElementById('menu-btn').addEventListener('click', () => {
+  sidebar.classList.toggle('open'); backdrop.classList.toggle('open');
+});
+backdrop.addEventListener('click', closeSidebar);
+document.querySelectorAll('#sidebar a').forEach(a => a.addEventListener('click', closeSidebar));
+
+// --- Copy buttons ---
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const code = btn.closest('.code-box').querySelector('code').innerText;
+    try { await navigator.clipboard.writeText(code); } catch (e) {}
+    const original = btn.innerHTML;
+    btn.innerHTML = `<i data-lucide="check" class="size-3.5 text-emerald-400"></i>${i18n.copied[currentLang]}`;
+    try { lucide.createIcons(); } catch (e) {}
+    setTimeout(() => { btn.innerHTML = original; try { lucide.createIcons(); } catch (e) {} }, 1500);
+  });
+});
+
+// --- Scroll-spy active nav ---
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('main section[id]');
+function onScroll() {
+  let current = sections[0]?.id;
+  sections.forEach(s => { if (s.getBoundingClientRect().top < 140) current = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+}
+document.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+</body>
+</html>

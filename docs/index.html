@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kitab Link — Dokumentasi</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.46.0/dist/umd/lucide.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: {
+      fontFamily: { sans: ['Outfit', 'sans-serif'], mono: ['Space Grotesk', 'monospace'] },
+    } }
+  }
+</script>
+<style>
+  ::-webkit-scrollbar { width: 7px; height: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+  .dark ::-webkit-scrollbar-thumb { background: #334155; }
+  code { font-family: 'Space Grotesk', monospace; }
+  .nav-link.active { color: #2563eb; background: #eff6ff; }
+  .dark .nav-link.active { color: #60a5fa; background: rgba(37,99,235,0.12); }
+  #sidebar { transition: transform .2s ease; }
+  @media (max-width: 899px) {
+    #sidebar { position: fixed; inset: 0 25% 0 0; z-index: 40; transform: translateX(-100%); overflow-y: auto; }
+    #sidebar.open { transform: translateX(0); }
+    #sidebar-backdrop { position: fixed; inset: 0; z-index: 39; background: rgba(15,23,42,.5); display: none; }
+    #sidebar-backdrop.open { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans antialiased min-h-screen">
+
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-slate-950/85 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="menu-btn" class="md:hidden -ml-1 p-2 text-slate-500 dark:text-slate-400" aria-label="Menu">
+          <i data-lucide="menu" class="size-5"></i>
+        </button>
+        <a href="/" class="flex items-center gap-2 shrink-0">
+          <img src="logo.png" alt="" class="size-8 rounded-lg">
+          <span class="font-bold text-base tracking-tight hidden sm:inline bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">Kitab Link</span>
+        </a>
+        <span class="text-[11px] px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-500/15 text-blue-700 dark:text-blue-400 font-semibold shrink-0">Docs</span>
+      </div>
+
+      <button id="search-btn" class="hidden md:flex items-center gap-2 flex-1 max-w-sm px-3.5 py-2 text-sm text-slate-400 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-400 transition-colors">
+        <i data-lucide="search" class="size-4"></i>
+        <span data-i18n="search-placeholder">Cari docs...</span>
+        <kbd class="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">Ctrl K</kbd>
+      </button>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button id="search-btn-mobile" class="md:hidden p-2 text-slate-500 dark:text-slate-400" aria-label="Cari">
+          <i data-lucide="search" class="size-5"></i>
+        </button>
+        <button id="lang-btn" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800" aria-label="Language">EN</button>
+        <button id="theme-btn" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Tema">
+          <i data-lucide="sun" class="size-5 hidden dark-icon"></i>
+          <i data-lucide="moon" class="size-5 light-icon"></i>
+        </button>
+        <a href="https://github.com/Kurohiko-id/Kitab-Link-Self-Hosted" target="_blank" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs font-semibold">
+          <i data-lucide="github" class="size-4"></i>
+          <span class="hidden sm:inline">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="sidebar-backdrop"></div>
+
+  <div class="max-w-7xl mx-auto px-4 flex gap-8">
+    <aside id="sidebar" class="w-72 md:w-56 shrink-0 bg-white dark:bg-slate-950 md:bg-transparent py-6 md:py-8 px-5 md:px-0">
+      <nav class="space-y-6 text-sm">
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-2" data-i18n="nav-mulai">Mulai</div>
+          <a href="#easy-install" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="sparkles" class="size-4"></i><span data-i18n="nav-easyinstall">Instalasi Mudah</span></a>
+          <a href="manual-install.html" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="wrench" class="size-4"></i><span data-i18n="nav-manualinstall">Manual Installation</span></a>
+          <a href="#quickstart" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="rocket" class="size-4"></i>Quick Start</a>
+          <a href="#setup-admin" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="user-round" class="size-4"></i><span data-i18n="nav-setupadmin">Setup Admin</span></a>
+        </div>
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-2" data-i18n="nav-fitur">Fitur</div>
+          <a href="#reverse-proxy" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="network" class="size-4"></i>Reverse Proxy</a>
+          <a href="#automation" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="bot" class="size-4"></i><span data-i18n="nav-automasi">Automasi</span></a>
+        </div>
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-2" data-i18n="nav-operasional">Operasional</div>
+          <a href="#security" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="shield-check" class="size-4"></i><span data-i18n="nav-keamanan">Keamanan</span></a>
+          <a href="#backup" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="database" class="size-4"></i>Backup &amp; Restore</a>
+          <a href="#updates" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="refresh-cw" class="size-4"></i><span data-i18n="nav-updates">Update Versi</span></a>
+          <a href="#troubleshooting" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="triangle-alert" class="size-4"></i>Troubleshooting</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 min-w-0 py-8 md:py-10 max-w-2xl">
+
+      <section id="overview" class="scroll-mt-20 mb-10">
+        <h1 class="text-3xl font-extrabold tracking-tight mb-2" data-i18n="ov-title">Dokumentasi Kitab Link</h1>
+        <p class="text-slate-600 dark:text-slate-400" data-i18n="ov-desc">Link-in-bio self-hosted — Next.js + SQLite, 1 file database, deploy pakai Docker.</p>
+      </section>
+
+      <section id="easy-install" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="sparkles" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="nav-easyinstall">Instalasi Mudah</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="ei-desc">Cara paling gampang — 1 command, script yang urus semuanya.</p>
+
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="ei-cap">Jalankan script instalasi</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>curl -fsSL https://raw.githubusercontent.com/Kurohiko-id/Kitab-Link-Self-Hosted/main/install.sh | bash</code></pre>
+        </div>
+
+        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400 list-disc pl-5 mb-3">
+          <li data-i18n="ei-1">Install Docker otomatis kalau belum ada di server.</li>
+          <li data-i18n="ei-2">Install &amp; configure Caddy otomatis (atau nyambung ke Caddy yang udah jalan kalau server ini udah dipakai app/domain lain) — HTTPS, reverse proxy, semua udah diatur.</li>
+          <li data-i18n="ei-3">Tinggal jawab beberapa pertanyaan singkat (bahasa, folder install, domain, nama container), sisanya diurus script.</li>
+        </ul>
+
+        <div class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-300 text-sm mb-4" data-i18n="ei-warn">
+          Kalau sebelumnya Docker belum ke-install di server, sesi SSH bakal ke-logout otomatis setelah Docker selesai diinstall. Login ulang SSH, lalu jalankan command <code>curl -fsSL https://raw.githubusercontent.com/Kurohiko-id/Kitab-Link-Self-Hosted/main/install.sh | bash</code> sekali lagi buat lanjutin instalasi.
+        </div>
+
+        <a href="manual-install.html" class="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 transition-colors group">
+          <span class="flex items-center gap-2.5 text-sm font-semibold">
+            <i data-lucide="wrench" class="size-4 text-blue-600 dark:text-blue-400"></i>
+            <span data-i18n="ei-manual-link">Butuh kontrol penuh? Ikuti Manual Installation</span>
+          </span>
+          <i data-lucide="arrow-right" class="size-4 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
+        </a>
+      </section>
+
+      <section id="quickstart" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="rocket" class="size-5 text-blue-600 dark:text-blue-400"></i>Quick Start</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-500 mb-3" data-i18n="qs-manual-note">Cara manual pakai Docker Compose — kalau lebih suka atur sendiri.</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="qs-desc">Butuh Docker + Compose. Cocok kalau server-nya cuma buat app ini doang.</p>
+
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="qs-cap1">1. Download compose file</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>curl -O https://raw.githubusercontent.com/Kurohiko-id/Kitab-Link-Self-Hosted/main/docker-compose.yml</code></pre>
+        </div>
+
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="qs-cap2">2. Jalankan</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker compose up -d</code></pre>
+        </div>
+
+        <p class="text-xs text-slate-500 dark:text-slate-500 mb-3" data-i18n="qs-note">Migration jalan otomatis. Buka <code class="text-blue-600 dark:text-blue-400">http://IP-SERVER:3000</code> — diarahin ke setup kalau belum ada akun.</p>
+      </section>
+
+      <section id="setup-admin" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="user-round" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="nav-setupadmin">Setup Admin</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="sa-desc"><code>/setup</code> minta username, password, dan token. Token SENGAJA cuma ada di log (biar orang lain gak bisa daftar duluan):</p>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="sa-cap">Ambil token setup</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker logs kitab-link | grep "Setup token"</code></pre>
+        </div>
+        <p class="text-xs text-slate-500" data-i18n="sa-note">Token sekali pakai, invalid otomatis kalau container restart sebelum setup selesai.</p>
+      </section>
+
+      <section id="reverse-proxy" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="network" class="size-5 text-blue-600 dark:text-blue-400"></i>Reverse Proxy</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="rp-desc">Banyak app 1 server? Pakai Caddy/Nginx di depan buat routing per-domain + HTTPS.</p>
+        <div class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-300 text-sm" data-i18n="rp-warn">
+          <b>Pakai Cloudflare?</b> Set SSL mode <b>"Full (strict)"</b> — mode "Flexible" bikin redirect loop / gagal login.
+        </div>
+      </section>
+
+      <section id="automation" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="bot" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="nav-automasi">Automasi</span></h2>
+        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400 list-disc pl-5">
+          <li data-i18n="auto-1"><b>YouTube Live</b> — grup/link auto muncul pas live, ilang pas kelar.</li>
+          <li data-i18n="auto-2"><b>Live Badge</b> — badge "sedang live", independen dari fitur di atas.</li>
+          <li data-i18n="auto-3"><b>Jadwal Mingguan</b> — link muncul/hilang di hari &amp; jam tertentu.</li>
+          <li data-i18n="auto-4"><b>RSS/Atom</b> — konten baru dari feed otomatis jadi link.</li>
+        </ul>
+      </section>
+
+      <section id="security" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="shield-check" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="nav-keamanan">Keamanan</span></h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm">
+          <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" data-i18n="sec-1"><b>Argon2id</b> — hashing password, bukan bcrypt/MD5.</div>
+          <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" data-i18n="sec-2"><b>2FA TOTP</b> + backup codes.</div>
+          <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" data-i18n="sec-3"><b>Password per page</b> — beda dari password akun.</div>
+          <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" data-i18n="sec-4"><b>Lupa password</b> — jalankan <code>docker logs &lt;container_name&gt;</code> buat ambil token/link reset, gak lewat email.</div>
+        </div>
+      </section>
+
+      <section id="backup" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="database" class="size-5 text-blue-600 dark:text-blue-400"></i>Backup &amp; Restore</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400" data-i18n="bk-desc">Export/import JSON, bisa pilih terpisah: Tema, Profil &amp; SEO, Link &amp; Grup. Import ada konfirmasi (destruktif) + validasi versi.</p>
+      </section>
+
+      <section id="updates" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="refresh-cw" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="nav-updates">Update Versi</span></h2>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-2">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="up-cap1">1. Tarik image terbaru</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker compose pull</code></pre>
+        </div>
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-2">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="up-cap2">2. Restart container</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker compose up -d</code></pre>
+        </div>
+        <p class="text-xs text-slate-500" data-i18n="up-note">Migration jalan otomatis lagi. Dashboard notif kalau ada rilis lebih baru.</p>
+      </section>
+
+      <section id="troubleshooting" class="scroll-mt-20 mb-16">
+        <h2 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="triangle-alert" class="size-5 text-blue-600 dark:text-blue-400"></i>Troubleshooting</h2>
+        <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-100 dark:bg-slate-900 text-slate-500">
+              <tr><th class="p-3 font-semibold" data-i18n="ts-th1">Gejala</th><th class="p-3 font-semibold" data-i18n="ts-th2">Solusi</th></tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+              <tr><td class="p-3 font-medium text-slate-900 dark:text-white" data-i18n="ts-r1a">/setup bilang sudah ada akun</td><td class="p-3" data-i18n="ts-r1b">Pakai <code>/login</code>, atau reset password lewat log.</td></tr>
+              <tr><td class="p-3 font-medium text-slate-900 dark:text-white" data-i18n="ts-r2a">Upload hilang setelah pindah server</td><td class="p-3" data-i18n="ts-r2b">Volume <code>/app/data</code> gak ikut dipindah.</td></tr>
+              <tr><td class="p-3 font-medium text-slate-900 dark:text-white">Redirect loop HTTPS</td><td class="p-3" data-i18n="ts-r3b">Ganti SSL mode ke "Full (strict)".</td></tr>
+              <tr><td class="p-3 font-medium text-slate-900 dark:text-white" data-i18n="ts-r4a">Import backup ditolak</td><td class="p-3" data-i18n="ts-r4b">Export ulang dari versi yang sedang jalan.</td></tr>
+              <tr><td class="p-3 font-medium text-slate-900 dark:text-white">Wrong Setup Token / Token salah</td><td class="p-3" data-i18n="ts-r5b">Cek ulang <code>docker logs &lt;container_name&gt;</code>, kemungkinan token salah salin atau sudah expired.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="search-modal" class="hidden fixed inset-0 z-[60] flex items-start justify-center pt-20 px-4 bg-slate-900/60">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div class="p-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2.5">
+        <i data-lucide="search" class="size-4 text-slate-400"></i>
+        <input id="search-input" type="text" data-i18n-placeholder="modal-placeholder" placeholder="Cari topik..." class="w-full bg-transparent text-sm focus:outline-none">
+        <button id="search-close" class="text-[11px] px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">ESC</button>
+      </div>
+      <div id="search-results" class="p-2 max-h-72 overflow-y-auto text-sm"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+try { lucide.createIcons(); } catch (e) {}
+
+// --- Theme toggle: localStorage overrides system preference ---
+const html = document.documentElement;
+function applyTheme(dark) {
+  html.classList.toggle('dark', dark);
+  document.querySelectorAll('.dark-icon').forEach(el => el.classList.toggle('hidden', !dark));
+  document.querySelectorAll('.light-icon').forEach(el => el.classList.toggle('hidden', dark));
+}
+try {
+  const saved = localStorage.getItem('kl-docs-theme');
+  applyTheme(saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+} catch (e) { applyTheme(false); }
+document.getElementById('theme-btn').addEventListener('click', () => {
+  const next = !html.classList.contains('dark');
+  applyTheme(next);
+  try { localStorage.setItem('kl-docs-theme', next ? 'dark' : 'light'); } catch (e) {}
+});
+
+// --- Language toggle: ID/EN ---
+const i18n = {
+  'search-placeholder': { id: 'Cari docs...', en: 'Search docs...' },
+  'modal-placeholder': { id: 'Cari topik...', en: 'Search topics...' },
+  'copy': { id: 'Salin', en: 'Copy' },
+  'copied': { id: 'Tersalin', en: 'Copied' },
+  'not-found': { id: 'Gak ketemu', en: 'Not found' },
+  'nav-mulai': { id: 'Mulai', en: 'Get Started' },
+  'nav-setupadmin': { id: 'Setup Admin', en: 'Admin Setup' },
+  'nav-fitur': { id: 'Fitur', en: 'Features' },
+  'nav-automasi': { id: 'Automasi', en: 'Automation' },
+  'nav-operasional': { id: 'Operasional', en: 'Operations' },
+  'nav-keamanan': { id: 'Keamanan', en: 'Security' },
+  'nav-updates': { id: 'Update Versi', en: 'Version Updates' },
+  'ov-title': { id: 'Dokumentasi Kitab Link', en: 'Kitab Link Documentation' },
+  'ov-desc': { id: 'Link-in-bio self-hosted — Next.js + SQLite, 1 file database, deploy pakai Docker.', en: 'Self-hosted link-in-bio — Next.js + SQLite, single-file database, deploy with Docker.' },
+  'nav-easyinstall': { id: 'Instalasi Mudah', en: 'Easy Installation' },
+  'nav-manualinstall': { id: 'Manual Installation', en: 'Manual Installation' },
+  'ei-desc': { id: 'Cara paling gampang — 1 command, script yang urus semuanya.', en: 'The easiest way — one command, the script handles everything.' },
+  'ei-cap': { id: 'Jalankan script instalasi', en: 'Run the install script' },
+  'ei-1': { id: 'Install Docker otomatis kalau belum ada di server.', en: "Installs Docker automatically if it isn't already on the server." },
+  'ei-2': { id: 'Install &amp; configure Caddy otomatis (atau nyambung ke Caddy yang udah jalan kalau server ini udah dipakai app/domain lain) — HTTPS, reverse proxy, semua udah diatur.', en: 'Installs and configures Caddy automatically (or hooks into your existing Caddy if you already run other apps/domains on this server) — HTTPS, reverse proxy, everything wired for you.' },
+  'ei-3': { id: 'Tinggal jawab beberapa pertanyaan singkat (bahasa, folder install, domain, nama container), sisanya diurus script.', en: 'Just answer a few quick questions (language, install folder, domain, container name) and the script takes care of the rest.' },
+  'ei-warn': { id: 'Kalau sebelumnya Docker belum ke-install di server, sesi SSH bakal ke-logout otomatis setelah Docker selesai diinstall. Login ulang SSH, lalu jalankan command <code>curl -fsSL https://raw.githubusercontent.com/Kurohiko-id/Kitab-Link-Self-Hosted/main/install.sh | bash</code> sekali lagi buat lanjutin instalasi.', en: "If Docker wasn't installed on the server before, your SSH session will get logged out automatically once Docker finishes installing. Log back into SSH, then run <code>curl -fsSL https://raw.githubusercontent.com/Kurohiko-id/Kitab-Link-Self-Hosted/main/install.sh | bash</code> again to continue the install." },
+  'ei-manual-link': { id: 'Butuh kontrol penuh? Ikuti Manual Installation', en: 'Need full control? Follow Manual Installation' },
+  'qs-manual-note': { id: 'Cara manual pakai Docker Compose — kalau lebih suka atur sendiri.', en: 'Manual method using Docker Compose — if you prefer to set it up yourself.' },
+  'qs-desc': { id: 'Butuh Docker + Compose. Cocok kalau server-nya cuma buat app ini doang.', en: 'Needs Docker + Compose. Good fit if the server is dedicated to this app.' },
+  'qs-cap1': { id: '1. Download compose file', en: '1. Download compose file' },
+  'qs-cap2': { id: '2. Jalankan', en: '2. Run it' },
+  'qs-note': { id: 'Migration jalan otomatis. Buka <code class="text-blue-600 dark:text-blue-400">http://IP-SERVER:3000</code> — diarahin ke setup kalau belum ada akun.', en: 'Migrations run automatically. Open <code class="text-blue-600 dark:text-blue-400">http://SERVER-IP:3000</code> — you\'ll be redirected to setup if there\'s no account yet.' },
+  'sa-desc': { id: '<code>/setup</code> minta username, password, dan token. Token SENGAJA cuma ada di log (biar orang lain gak bisa daftar duluan):', en: '<code>/setup</code> asks for a username, password, and token. The token is INTENTIONALLY log-only (so no one else can register first):' },
+  'sa-cap': { id: 'Ambil token setup', en: 'Get the setup token' },
+  'sa-note': { id: 'Token sekali pakai, invalid otomatis kalau container restart sebelum setup selesai.', en: 'The token is single-use and becomes invalid automatically if the container restarts before setup finishes.' },
+  'rp-desc': { id: 'Banyak app 1 server? Pakai Caddy/Nginx di depan buat routing per-domain + HTTPS.', en: 'Running multiple apps on one server? Put Caddy/Nginx in front for per-domain routing + HTTPS.' },
+  'rp-warn': { id: '<b>Pakai Cloudflare?</b> Set SSL mode <b>"Full (strict)"</b> — mode "Flexible" bikin redirect loop / gagal login.', en: '<b>Using Cloudflare?</b> Set SSL mode to <b>"Full (strict)"</b> — "Flexible" mode causes redirect loops / login failures.' },
+  'auto-1': { id: '<b>YouTube Live</b> — grup/link auto muncul pas live, ilang pas kelar.', en: '<b>YouTube Live</b> — group/link auto-appears while live, disappears when it ends.' },
+  'auto-2': { id: '<b>Live Badge</b> — badge "sedang live", independen dari fitur di atas.', en: '<b>Live Badge</b> — a "currently live" badge, independent from the feature above.' },
+  'auto-3': { id: '<b>Jadwal Mingguan</b> — link muncul/hilang di hari &amp; jam tertentu.', en: '<b>Weekly Schedule</b> — links show/hide on specific days &amp; times.' },
+  'auto-4': { id: '<b>RSS/Atom</b> — konten baru dari feed otomatis jadi link.', en: '<b>RSS/Atom</b> — new feed content automatically becomes a link.' },
+  'sec-1': { id: '<b>Argon2id</b> — hashing password, bukan bcrypt/MD5.', en: '<b>Argon2id</b> — password hashing, not bcrypt/MD5.' },
+  'sec-2': { id: '<b>2FA TOTP</b> + backup codes.', en: '<b>2FA TOTP</b> + backup codes.' },
+  'sec-3': { id: '<b>Password per page</b> — beda dari password akun.', en: '<b>Per-page password</b> — separate from the account password.' },
+  'sec-4': { id: '<b>Lupa password</b> — jalankan <code>docker logs &lt;container_name&gt;</code> buat ambil token/link reset, gak lewat email.', en: '<b>Forgot password</b> — run <code>docker logs &lt;container_name&gt;</code> to get the reset token/link, not via email.' },
+  'bk-desc': { id: 'Export/import JSON, bisa pilih terpisah: Tema, Profil &amp; SEO, Link &amp; Grup. Import ada konfirmasi (destruktif) + validasi versi.', en: 'Export/import JSON, selectable separately: Theme, Profile &amp; SEO, Links &amp; Groups. Import has a confirmation (destructive) + version validation.' },
+  'up-cap1': { id: '1. Tarik image terbaru', en: '1. Pull the latest image' },
+  'up-cap2': { id: '2. Restart container', en: '2. Restart container' },
+  'up-note': { id: 'Migration jalan otomatis lagi. Dashboard notif kalau ada rilis lebih baru.', en: 'Migrations run automatically again. The dashboard notifies you when a newer release is available.' },
+  'ts-th1': { id: 'Gejala', en: 'Symptom' },
+  'ts-th2': { id: 'Solusi', en: 'Solution' },
+  'ts-r1a': { id: '/setup bilang sudah ada akun', en: '/setup says an account already exists' },
+  'ts-r1b': { id: 'Pakai <code>/login</code>, atau reset password lewat log.', en: 'Use <code>/login</code>, or reset the password via the logs.' },
+  'ts-r2a': { id: 'Upload hilang setelah pindah server', en: 'Uploads disappear after moving servers' },
+  'ts-r2b': { id: 'Volume <code>/app/data</code> gak ikut dipindah.', en: 'The <code>/app/data</code> volume wasn\'t moved along with it.' },
+  'ts-r3b': { id: 'Ganti SSL mode ke "Full (strict)".', en: 'Switch the SSL mode to "Full (strict)".' },
+  'ts-r4a': { id: 'Import backup ditolak', en: 'Backup import rejected' },
+  'ts-r4b': { id: 'Export ulang dari versi yang sedang jalan.', en: 'Re-export from the version currently running.' },
+  'ts-r5b': { id: 'Cek ulang <code>docker logs &lt;container_name&gt;</code>, kemungkinan token salah salin atau sudah expired.', en: 'Double-check <code>docker logs &lt;container_name&gt;</code> — the token may be mistyped or expired.' },
+};
+let index = [];
+function buildSearchIndex() {
+  index = [...document.querySelectorAll('main section')].map(s => ({
+    id: s.id, title: s.querySelector('h1,h2')?.innerText.trim() || s.id,
+    desc: s.querySelector('p')?.innerText.trim() || ''
+  }));
+}
+let currentLang = 'id';
+function applyLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const entry = i18n[el.dataset.i18n];
+    if (entry) el.innerHTML = entry[lang];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const entry = i18n[el.dataset.i18nPlaceholder];
+    if (entry) el.setAttribute('placeholder', entry[lang]);
+  });
+  html.lang = lang;
+  document.getElementById('lang-btn').textContent = lang === 'id' ? 'EN' : 'ID';
+  try { lucide.createIcons(); } catch (e) {}
+  buildSearchIndex();
+  try { localStorage.setItem('kl-docs-lang', lang); } catch (e) {}
+}
+try {
+  applyLang(localStorage.getItem('kl-docs-lang') || 'id');
+} catch (e) { applyLang('id'); }
+document.getElementById('lang-btn').addEventListener('click', () => {
+  applyLang(currentLang === 'id' ? 'en' : 'id');
+});
+
+// --- Mobile sidebar drawer ---
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('sidebar-backdrop');
+function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('open'); }
+document.getElementById('menu-btn').addEventListener('click', () => {
+  sidebar.classList.toggle('open'); backdrop.classList.toggle('open');
+});
+backdrop.addEventListener('click', closeSidebar);
+document.querySelectorAll('#sidebar a').forEach(a => a.addEventListener('click', closeSidebar));
+
+// --- Copy buttons ---
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const code = btn.closest('.code-box').querySelector('code').innerText;
+    try { await navigator.clipboard.writeText(code); } catch (e) {}
+    const original = btn.innerHTML;
+    btn.innerHTML = `<i data-lucide="check" class="size-3.5 text-emerald-400"></i>${i18n.copied[currentLang]}`;
+    try { lucide.createIcons(); } catch (e) {}
+    setTimeout(() => { btn.innerHTML = original; try { lucide.createIcons(); } catch (e) {} }, 1500);
+  });
+});
+
+// --- Search modal ---
+const searchModal = document.getElementById('search-modal');
+const searchInput = document.getElementById('search-input');
+const searchResults = document.getElementById('search-results');
+function openSearch() { searchModal.classList.remove('hidden'); searchInput.value = ''; renderResults(''); searchInput.focus(); }
+function closeSearch() { searchModal.classList.add('hidden'); }
+function renderResults(q) {
+  const query = q.toLowerCase();
+  const items = query ? index.filter(i => i.title.toLowerCase().includes(query) || i.desc.toLowerCase().includes(query)) : index;
+  searchResults.innerHTML = items.length ? items.map(i =>
+    `<a href="#${i.id}" class="block p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+      <div class="font-semibold text-slate-900 dark:text-white">${i.title}</div>
+      <div class="text-xs text-slate-500 truncate">${i.desc}</div>
+    </a>`).join('') : `<div class="text-center py-6 text-slate-400 text-xs">${i18n['not-found'][currentLang]}</div>`;
+  searchResults.querySelectorAll('a').forEach(a => a.addEventListener('click', closeSearch));
+}
+searchInput.addEventListener('input', e => renderResults(e.target.value));
+document.getElementById('search-btn').addEventListener('click', openSearch);
+document.getElementById('search-btn-mobile').addEventListener('click', openSearch);
+document.getElementById('search-close').addEventListener('click', closeSearch);
+searchModal.addEventListener('click', e => { if (e.target === searchModal) closeSearch(); });
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+  if (e.key === 'Escape') closeSearch();
+});
+
+// --- Scroll-spy active nav ---
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('main section');
+function onScroll() {
+  let current = sections[0]?.id;
+  sections.forEach(s => { if (s.getBoundingClientRect().top < 140) current = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+}
+document.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+</body>
+</html>
