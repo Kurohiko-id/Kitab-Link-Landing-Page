@@ -107,6 +107,8 @@
           <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-2" data-i18n="nav-fitur">Fitur</div>
           <a href="#reverse-proxy" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
             <i data-lucide="network" class="size-4"></i>Reverse Proxy</a>
+          <a href="#custom-domain" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <i data-lucide="globe" class="size-4"></i><span data-i18n="nav-customdomain">Domain Kustom</span></a>
           <a href="#automation" class="nav-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
             <i data-lucide="bot" class="size-4"></i><span data-i18n="nav-automasi">Automasi</span></a>
         </div>
@@ -205,6 +207,41 @@
         <div class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-300 text-sm" data-i18n="rp-warn">
           <b>Pakai Cloudflare?</b> Set SSL mode <b>"Full (strict)"</b> — mode "Flexible" bikin redirect loop / gagal login.
         </div>
+      </section>
+
+      <section id="custom-domain" class="scroll-mt-20 mb-10">
+        <h2 class="text-xl font-bold mb-1 flex items-center gap-2"><i data-lucide="globe" class="size-5 text-blue-600 dark:text-blue-400"></i><span data-i18n="nav-customdomain">Domain Kustom per Page</span></h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3" data-i18n="cd-desc">Tiap page (mis. <code>/main</code>, <code>/kerja</code>) bisa dipasangin domain sendiri-sendiri (mis. <code>namamu.com</code>) — independen dari domain utama tempat Kitab Link kamu jalan.</p>
+
+        <ol class="space-y-2 text-sm text-slate-600 dark:text-slate-400 list-decimal pl-5 mb-3">
+          <li data-i18n="cd-1">Arahin domain custom-nya (DNS A record) ke IP server ini, lewat penyedia DNS kamu (Cloudflare, dll).</li>
+          <li data-i18n="cd-2">Tambahin block baru di Caddyfile, isinya nunjuk ke container yang SAMA kayak domain utama (bukan container baru) — lalu reload Caddy-nya.</li>
+          <li data-i18n="cd-3">Masukin domain yang sama persis di dashboard → tab <b>Domain &amp; Access</b>, pilih page mana yang mau ditampilin lewat domain itu.</li>
+        </ol>
+
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="cd-cap1">Contoh block Caddyfile</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>namadomainmu.com {
+    reverse_proxy nama_container_kitablink:3000
+}</code></pre>
+        </div>
+
+        <div class="code-box rounded-xl bg-slate-900 overflow-hidden mb-3">
+          <div class="flex items-center justify-between px-3 py-2 text-[11px] text-slate-400 border-b border-slate-800">
+            <span data-i18n="cd-cap2">Reload Caddy (kalau jalan via Docker Compose)</span>
+            <button class="copy-btn flex items-center gap-1 hover:text-white"><i data-lucide="copy" class="size-3.5"></i><span data-i18n="copy">Salin</span></button>
+          </div>
+          <pre class="p-3 text-[13px] text-emerald-400 overflow-x-auto"><code>docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile</code></pre>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-300 text-sm mb-3" data-i18n="cd-warn">
+          Isian domain di dashboard doang BELUM CUKUP — itu cuma bikin app-nya tau "kalau ada request dari domain ini, tampilin page X". DNS dan Caddy tetep wajib diatur manual kayak di atas.
+        </div>
+
+        <p class="text-xs text-slate-500" data-i18n="cd-note">Badge "Traffic terdeteksi" di dashboard cuma nyala begitu ada request beneran yang masuk lewat domain itu — bukan verifikasi DNS asli. Halaman admin (<code>/dashboard</code>, <code>/login</code>, <code>/setup</code>) selalu diblokir kalau diakses lewat domain custom, demi keamanan.</p>
       </section>
 
       <section id="automation" class="scroll-mt-20 mb-10">
@@ -339,6 +376,15 @@ const i18n = {
   'sa-note': { id: 'Token sekali pakai, invalid otomatis kalau container restart sebelum setup selesai.', en: 'The token is single-use and becomes invalid automatically if the container restarts before setup finishes.' },
   'rp-desc': { id: 'Banyak app 1 server? Pakai Caddy/Nginx di depan buat routing per-domain + HTTPS.', en: 'Running multiple apps on one server? Put Caddy/Nginx in front for per-domain routing + HTTPS.' },
   'rp-warn': { id: '<b>Pakai Cloudflare?</b> Set SSL mode <b>"Full (strict)"</b> — mode "Flexible" bikin redirect loop / gagal login.', en: '<b>Using Cloudflare?</b> Set SSL mode to <b>"Full (strict)"</b> — "Flexible" mode causes redirect loops / login failures.' },
+  'nav-customdomain': { id: 'Domain Kustom', en: 'Custom Domain' },
+  'cd-desc': { id: 'Tiap page (mis. <code>/main</code>, <code>/kerja</code>) bisa dipasangin domain sendiri-sendiri (mis. <code>namamu.com</code>) — independen dari domain utama tempat Kitab Link kamu jalan.', en: 'Each page (e.g. <code>/main</code>, <code>/work</code>) can have its own custom domain (e.g. <code>yourname.com</code>) — independent from the main domain your Kitab Link runs on.' },
+  'cd-1': { id: 'Arahin domain custom-nya (DNS A record) ke IP server ini, lewat penyedia DNS kamu (Cloudflare, dll).', en: "Point the custom domain's DNS A record to this server's IP, through your DNS provider (Cloudflare, etc.)." },
+  'cd-2': { id: 'Tambahin block baru di Caddyfile, isinya nunjuk ke container yang SAMA kayak domain utama (bukan container baru) — lalu reload Caddy-nya.', en: "Add a new block to your Caddyfile pointing to the SAME container as your main domain (not a new one) — then reload Caddy." },
+  'cd-3': { id: 'Masukin domain yang sama persis di dashboard → tab <b>Domain &amp; Access</b>, pilih page mana yang mau ditampilin lewat domain itu.', en: 'Enter that exact domain in the dashboard → <b>Domain &amp; Access</b> tab, and pick which page it should serve.' },
+  'cd-cap1': { id: 'Contoh block Caddyfile', en: 'Example Caddyfile block' },
+  'cd-cap2': { id: 'Reload Caddy (kalau jalan via Docker Compose)', en: 'Reload Caddy (if running via Docker Compose)' },
+  'cd-warn': { id: 'Isian domain di dashboard doang BELUM CUKUP — itu cuma bikin app-nya tau "kalau ada request dari domain ini, tampilin page X". DNS dan Caddy tetep wajib diatur manual kayak di atas.', en: 'Entering the domain in the dashboard ALONE is NOT ENOUGH — it only tells the app "if a request comes from this domain, serve page X". DNS and Caddy still need to be set up manually as shown above.' },
+  'cd-note': { id: 'Badge "Traffic terdeteksi" di dashboard cuma nyala begitu ada request beneran yang masuk lewat domain itu — bukan verifikasi DNS asli. Halaman admin (<code>/dashboard</code>, <code>/login</code>, <code>/setup</code>) selalu diblokir kalau diakses lewat domain custom, demi keamanan.', en: 'The "Traffic detected" badge in the dashboard only turns on once a real request comes in through that domain — it\'s not actual DNS verification. Admin pages (<code>/dashboard</code>, <code>/login</code>, <code>/setup</code>) are always blocked when accessed through a custom domain, for security.' },
   'auto-1': { id: '<b>YouTube Live</b> — grup/link auto muncul pas live, ilang pas kelar.', en: '<b>YouTube Live</b> — group/link auto-appears while live, disappears when it ends.' },
   'auto-2': { id: '<b>Live Badge</b> — badge "sedang live", independen dari fitur di atas.', en: '<b>Live Badge</b> — a "currently live" badge, independent from the feature above.' },
   'auto-3': { id: '<b>Jadwal Mingguan</b> — link muncul/hilang di hari &amp; jam tertentu.', en: '<b>Weekly Schedule</b> — links show/hide on specific days &amp; times.' },
